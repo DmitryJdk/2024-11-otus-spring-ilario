@@ -16,11 +16,7 @@ public class TestServiceImpl implements TestService {
         ioService.printFormattedLine("Please answer the questions below%n");
         var questions = questionDao.findAll();
         for (var question : questions) {
-            ioService.printLine(question.text());
-            question.answers().forEach(it ->
-                    ioService.printFormattedLine("\t%s", it.text())
-            );
-            ioService.printLine("");
+            ioService.printLine(question.toString());
         }
     }
 }

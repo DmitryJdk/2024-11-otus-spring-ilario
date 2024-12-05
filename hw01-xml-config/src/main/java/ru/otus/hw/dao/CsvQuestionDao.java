@@ -33,7 +33,7 @@ public class CsvQuestionDao implements QuestionDao {
                     .map(QuestionDto::toDomainObject)
                     .toList();
         } catch (Exception e) {
-            throw new QuestionReadException("Не удалось прочесть файл", e);
+            throw new QuestionReadException("Error while reading csv file", e);
         }
     }
 }
