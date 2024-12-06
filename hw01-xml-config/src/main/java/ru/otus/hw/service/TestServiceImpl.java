@@ -15,8 +15,10 @@ public class TestServiceImpl implements TestService {
         ioService.printLine("");
         ioService.printFormattedLine("Please answer the questions below%n");
         var questions = questionDao.findAll();
+        var questionConverter = new QuestionConverter();
         for (var question : questions) {
-            ioService.printLine(question.toString());
+            var output = questionConverter.convert(question);
+            ioService.printLine(output);
         }
     }
 }
