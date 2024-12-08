@@ -8,14 +8,16 @@ public class TestRunnerServiceImpl implements TestRunnerService {
 
     private final TestService testService;
 
+    private final IOService ioService;
+
     @Override
     public void run() {
         try {
             testService.executeTest();
         } catch (QuestionReadException e) {
-            System.err.print(e.getMessage());
+            ioService.printLine("Error while reading csv file");
         } catch (Exception e) {
-            System.err.print("Unexpected exception: " + e.getMessage());
+            ioService.printLine("Fatal error happened");
         }
     }
 }

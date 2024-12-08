@@ -10,12 +10,13 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
+    private final QuestionConverter questionConverter;
+
     @Override
     public void executeTest() {
         ioService.printLine("");
         ioService.printFormattedLine("Please answer the questions below%n");
         var questions = questionDao.findAll();
-        var questionConverter = new QuestionConverter();
         for (var question : questions) {
             var output = questionConverter.convert(question);
             ioService.printLine(output);
