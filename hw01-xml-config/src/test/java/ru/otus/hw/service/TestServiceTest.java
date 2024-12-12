@@ -13,7 +13,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
+@DisplayNameGeneration(DisplayNameGenerator.Simple.class)
 public class TestServiceTest {
 
     private IOService ioService;
