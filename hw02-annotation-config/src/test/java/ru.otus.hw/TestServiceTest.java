@@ -32,14 +32,14 @@ public class TestServiceTest extends AbstractTest {
     }
 
     @Test
-    public void zero_correct_answers_when_no_questions() {
+    public void zeroCorrectAnswersWhenNoQuestions() {
         var testResult = testService.executeTestFor(defaultTestStudent);
         assertThat(testResult.getRightAnswersCount()).isEqualTo(0);
         assertThat(testResult.getStudent()).isEqualTo(defaultTestStudent);
     }
 
     @Test
-    public void counted_correct_answer_when_question_answered_correct() {
+    public void countedCorrectAnswerWhenQuestionAnsweredCorrect() {
         when(questionDao.findAll()).thenReturn(List.of(defaultTestQuestion));
         when(ioService.readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString()))
                 .thenReturn(1);
@@ -49,7 +49,7 @@ public class TestServiceTest extends AbstractTest {
     }
 
     @Test
-    public void remains_zero_correct_answers_when_question_answered_incorrect() {
+    public void remainsZeroCorrectAnswersWhenQuestionAnsweredIncorrect() {
         when(questionDao.findAll()).thenReturn(List.of(defaultTestQuestion));
         when(ioService.readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString()))
                 .thenReturn(2);
@@ -59,7 +59,7 @@ public class TestServiceTest extends AbstractTest {
     }
 
     @Test
-    public void incorrect_answer_when_student_input_trash() {
+    public void incorrectAnswerWhenStudentInputTrash() {
         when(questionDao.findAll()).thenReturn(List.of(defaultTestQuestion));
         when(ioService.readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString()))
                 .thenThrow(IllegalArgumentException.class);

@@ -26,13 +26,13 @@ public class CsvQuestionDaoTest extends AbstractTest {
     }
 
     @Test
-    public void dao_throws_exception_when_source_file_not_exists() {
+    public void daoThrowsExceptionWhenSourceFileNotExists() {
         when(testFileNameProvider.getTestFileName()).thenReturn("not_exists");
         assertThrows(QuestionReadException.class, () -> csvQuestionDao.findAll());
     }
 
     @Test
-    public void read_csv_file_and_check_loading_result() {
+    public void readCsvFileAndCheckLoadingResult() {
         when(testFileNameProvider.getTestFileName()).thenReturn("question-test.csv");
         var loadedQuestions = csvQuestionDao.findAll();
         assertThat(loadedQuestions.size()).isEqualTo(1);
