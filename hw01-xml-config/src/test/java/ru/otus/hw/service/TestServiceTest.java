@@ -13,7 +13,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 public class TestServiceTest {
 
     private IOService ioService;
@@ -30,7 +30,7 @@ public class TestServiceTest {
     }
 
     @Test
-    public void only_info_in_output_when_no_question() {
+    public void onlyInfoInOutputWhenNoQuestion() {
         when(questionDao.findAll()).thenReturn(List.of());
         testService.executeTest();
         verify(questionDao, times(1)).findAll();
@@ -38,7 +38,7 @@ public class TestServiceTest {
     }
 
     @Test
-    public void ioService_called_when_exist_question() {
+    public void ioServiceCalledWhenExistQuestion() {
         var question = new Question("test", List.of());
         when(questionDao.findAll()).thenReturn(List.of(question));
         testService.executeTest();
