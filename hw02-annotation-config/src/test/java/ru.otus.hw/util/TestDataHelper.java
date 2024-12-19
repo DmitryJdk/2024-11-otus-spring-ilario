@@ -1,16 +1,18 @@
-package ru.otus.hw;
+package ru.otus.hw.util;
 
+import lombok.experimental.UtilityClass;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.domain.Student;
 
 import java.util.List;
 
-public abstract class AbstractTest {
+@UtilityClass
+public class TestDataHelper {
 
-    protected final Student defaultTestStudent = new Student("name", "surname");
+    public final static Student defaultTestStudent = new Student("name", "surname");
 
-    protected final Question defaultTestQuestion = new Question(
+    public final static Question defaultTestQuestion = new Question(
             "Question?",
             List.of(
                     new Answer("Correct answer", true),

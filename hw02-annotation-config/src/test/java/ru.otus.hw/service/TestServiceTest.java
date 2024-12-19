@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package ru.otus.hw.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -6,18 +6,17 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.otus.hw.dao.QuestionDao;
-import ru.otus.hw.service.IOService;
-import ru.otus.hw.service.QuestionConverter;
-import ru.otus.hw.service.TestServiceImpl;
+import ru.otus.hw.util.TestDataHelper;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @DisplayNameGeneration(DisplayNameGenerator.Simple.class)
-public class TestServiceTest extends AbstractTest {
+public class TestServiceTest {
 
     private IOService ioService;
     private QuestionDao questionDao;
@@ -33,38 +32,38 @@ public class TestServiceTest extends AbstractTest {
 
     @Test
     public void zeroCorrectAnswersWhenNoQuestions() {
-        var testResult = testService.executeTestFor(defaultTestStudent);
+        var testResult = testService.executeTestFor(TestDataHelper.defaultTestStudent);
         assertThat(testResult.getRightAnswersCount()).isEqualTo(0);
-        assertThat(testResult.getStudent()).isEqualTo(defaultTestStudent);
+        assertThat(testResult.getStudent()).isEqualTo(TestDataHelper.defaultTestStudent);
     }
 
     @Test
     public void countedCorrectAnswerWhenQuestionAnsweredCorrect() {
-        when(questionDao.findAll()).thenReturn(List.of(defaultTestQuestion));
+        when(questionDao.findAll()).thenReturn(List.of(TestDataHelper.defaultTestQuestion));
         when(ioService.readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString()))
                 .thenReturn(1);
-        var testResult = testService.executeTestFor(defaultTestStudent);
+        var testResult = testService.executeTestFor(TestDataHelper.defaultTestStudent);
         assertThat(testResult.getRightAnswersCount()).isEqualTo(1);
-        assertThat(testResult.getAnsweredQuestions()).isEqualTo(List.of(defaultTestQuestion));
+        assertThat(testResult.getAnsweredQuestions()).isEqualTo(List.of(TestDataHelper.defaultTestQuestion));
     }
 
     @Test
     public void remainsZeroCorrectAnswersWhenQuestionAnsweredIncorrect() {
-        when(questionDao.findAll()).thenReturn(List.of(defaultTestQuestion));
+        when(questionDao.findAll()).thenReturn(List.of(TestDataHelper.defaultTestQuestion));
         when(ioService.readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString()))
                 .thenReturn(2);
-        var testResult = testService.executeTestFor(defaultTestStudent);
+        var testResult = testService.executeTestFor(TestDataHelper.defaultTestStudent);
         assertThat(testResult.getRightAnswersCount()).isEqualTo(0);
-        assertThat(testResult.getAnsweredQuestions()).isEqualTo(List.of(defaultTestQuestion));
+        assertThat(testResult.getAnsweredQuestions()).isEqualTo(List.of(TestDataHelper.defaultTestQuestion));
     }
 
     @Test
     public void incorrectAnswerWhenStudentInputTrash() {
-        when(questionDao.findAll()).thenReturn(List.of(defaultTestQuestion));
+        when(questionDao.findAll()).thenReturn(List.of(TestDataHelper.defaultTestQuestion));
         when(ioService.readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString()))
                 .thenThrow(IllegalArgumentException.class);
-        var testResult = testService.executeTestFor(defaultTestStudent);
+        var testResult = testService.executeTestFor(TestDataHelper.defaultTestStudent);
         assertThat(testResult.getRightAnswersCount()).isEqualTo(0);
-        assertThat(testResult.getAnsweredQuestions()).isEqualTo(List.of(defaultTestQuestion));
+        assertThat(testResult.getAnsweredQuestions()).isEqualTo(List.of(TestDataHelper.defaultTestQuestion));
     }
 }

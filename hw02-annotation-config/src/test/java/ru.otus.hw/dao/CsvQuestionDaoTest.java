@@ -1,4 +1,4 @@
-package ru.otus.hw;
+package ru.otus.hw.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -6,15 +6,15 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.otus.hw.config.TestFileNameProvider;
-import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.exceptions.QuestionReadException;
+import ru.otus.hw.util.TestDataHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @DisplayNameGeneration(DisplayNameGenerator.Simple.class)
-public class CsvQuestionDaoTest extends AbstractTest {
+public class CsvQuestionDaoTest {
 
     private TestFileNameProvider testFileNameProvider;
     private CsvQuestionDao csvQuestionDao;
@@ -37,6 +37,6 @@ public class CsvQuestionDaoTest extends AbstractTest {
         var loadedQuestions = csvQuestionDao.findAll();
         assertThat(loadedQuestions.size()).isEqualTo(1);
         var question = loadedQuestions.get(0);
-        assertThat(question).isEqualTo(defaultTestQuestion);
+        assertThat(question).isEqualTo(TestDataHelper.defaultTestQuestion);
     }
 }
