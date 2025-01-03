@@ -1,0 +1,18 @@
+
+${Ansi.GREEN}  ,ad8888ba,    888888888888  88        88   ad88888ba
+${Ansi.GREEN} d8"'    `"8b        88       88        88  d8"     "8b
+${Ansi.GREEN}d8'        `8b       88       88        88  Y8,
+${Ansi.GREEN}88          88       88       88        88  `Y8aaaaa,
+${Ansi.GREEN}88          88       88       88        88    `"""""8b,
+${Ansi.GREEN}Y8,        ,8P       88       88        88          `8b
+${Ansi.GREEN} Y8a.    .a8P        88       Y8a.    .a8P  Y8a     a8P
+${Ansi.GREEN}  `"Y8888Y"'         88        `"Y8888Y"'    "Y88888P"
+${Ansi.BLUE}88                                  ,a8888a,      ad888888b,
+${Ansi.BLUE}88                                ,8P"'  `"Y8,   d8"     "88
+${Ansi.BLUE}88                               ,8P        Y8,          a8P
+${Ansi.BLUE}88,dPPYba,   8b      db      d8  88          88       aad8"
+${Ansi.BLUE}88P'    "8a  `8b    d88b    d8'  88          88       ""Y8,
+${Ansi.BLUE}88       88   `8b  d8'`8b  d8'   `8b        d8'          "8b
+${Ansi.BLUE}88       88    `8bd8'  `8bd8'     `8ba,  ,ad8'   Y8,     a88
+${Ansi.BLUE}88       88      YP      YP         "Y8888P"      "Y888888P' ${Ansi.RED} Spring Boot${spring-boot.formatted-version} ${Ansi.DEFAULT}
+
