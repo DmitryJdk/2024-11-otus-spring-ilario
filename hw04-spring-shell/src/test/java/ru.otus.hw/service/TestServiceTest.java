@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
         "spring.shell.interactive.enabled=false"
 })
 @DisplayNameGeneration(DisplayNameGenerator.Simple.class)
+@MockBean(QuestionConverter.class)
 public class TestServiceTest {
 
     @MockBean

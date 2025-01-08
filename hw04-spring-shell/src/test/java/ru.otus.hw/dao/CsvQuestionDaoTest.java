@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import ru.otus.hw.config.TestFileNameProvider;
 import ru.otus.hw.exceptions.QuestionReadException;
 import ru.otus.hw.util.TestDataHelper;
@@ -16,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(classes = CsvQuestionDao.class)
 @DisplayNameGeneration(DisplayNameGenerator.Simple.class)
 public class CsvQuestionDaoTest {
 
@@ -24,10 +22,6 @@ public class CsvQuestionDaoTest {
     private TestFileNameProvider testFileNameProvider;
     @Autowired
     private CsvQuestionDao csvQuestionDao;
-
-    @Configuration
-    @ComponentScan("ru.otus.hw.dao")
-    static class DaoTestConfiguration {}
 
     @Test
     public void daoThrowsExceptionWhenSourceFileNotExists() {
