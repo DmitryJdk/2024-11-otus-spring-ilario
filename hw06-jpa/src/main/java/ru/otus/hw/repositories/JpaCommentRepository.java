@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public class JpaCommentRepository implements CommentRepository {
 
     @PersistenceContext
     private final EntityManager entityManager;
+
+    private final BookRepository bookRepository;
 
     @Override
     public Comment save(Comment comment) {
@@ -38,11 +41,15 @@ public class JpaCommentRepository implements CommentRepository {
 
     @Override
     public List<Comment> findByBookId(long id) {
+        var book = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found"));
         return entityManager.createQuery(
-                "select c from Comment c left join fetch c.book b left join fetch b.author"
-                        + " where b.id=:bookId", Comment.class
-                )
-                .setParameter("bookId", id)
-                .getResultList();
+                "select new ru.otus.hw.models.Comment(c.id, c.text) from Comment c "
+                        + "where book = :book", Comment.class)
+                .setParameter("book", book)
+                .getResultList()
+                .stream()
+                .peek(projection -> projection.setBook(book))
+                .toList();
     }
 }
