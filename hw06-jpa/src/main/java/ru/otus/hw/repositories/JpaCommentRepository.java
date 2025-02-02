@@ -43,13 +43,9 @@ public class JpaCommentRepository implements CommentRepository {
     public List<Comment> findByBookId(long id) {
         var book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found"));
-        return entityManager.createQuery(
-                "select new ru.otus.hw.models.Comment(c.id, c.text) from Comment c "
-                        + "where book = :book", Comment.class)
+        return entityManager
+                .createQuery("select c from Comment c where book = :book", Comment.class)
                 .setParameter("book", book)
-                .getResultList()
-                .stream()
-                .peek(projection -> projection.setBook(book))
-                .toList();
+                .getResultList();
     }
 }
