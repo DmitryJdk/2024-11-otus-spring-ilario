@@ -8,11 +8,7 @@ import ru.otus.hw.dto.CommentDto;
 @RequiredArgsConstructor
 public class CommentConverter {
 
-    private final BookConverter bookConverter;
-
     public String commentToString(CommentDto comment) {
-        var bookString = bookConverter.bookToString(comment.book());
-        return "Id: " + comment.id() + ", text: " + comment.text()
-                + ", book: {" + bookString + "}";
+        return "Id: " + comment.id() + ", text: " + comment.text();
     }
 }

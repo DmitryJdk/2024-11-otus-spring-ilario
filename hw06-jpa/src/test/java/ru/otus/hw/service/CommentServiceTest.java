@@ -2,13 +2,12 @@ package ru.otus.hw.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.mapper.LibraryMapperImpl;
 import ru.otus.hw.repositories.JpaBookRepository;
 import ru.otus.hw.repositories.JpaCommentRepository;
@@ -16,8 +15,6 @@ import ru.otus.hw.services.CommentService;
 import ru.otus.hw.services.CommentServiceImpl;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.LongStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,20 +31,16 @@ public class CommentServiceTest {
     @Autowired
     private CommentService commentService;
 
-    @ParameterizedTest
-    @MethodSource("getBooksIds")
+    @Test
     @DisplayName("должен возвращать список комментариев по книге")
-    void shouldReturnCommentsForBookId(Long bookId) {
+    void shouldReturnCommentsForBookId() {
+        var bookId = 1L;
+        var expectedComments = List.of(
+                new CommentDto(1L, "Text_1"),
+                new CommentDto(2L, "Text_2")
+        );
         var comments = commentService.findByBookId(bookId);
-        assertThat(comments).isNotEmpty();
-        comments.forEach( commentDto -> {
-            var book = commentDto.book();
-            assertThat(book).isNotNull();
-            assertThat(book.title()).isNotNull();
-            assertThat(book.author()).isNotNull();
-            assertThat(book.author().fullName()).isNotNull();
-            assertThat(book.genres().size()).isGreaterThan(0);
-        });
+        assertThat(comments).containsExactlyElementsOf(expectedComments);
     }
 
     @Test
@@ -83,9 +76,5 @@ public class CommentServiceTest {
         commentService.deleteById(comment.id());
         var deletedComment = commentService.findById(comment.id());
         assertThat(deletedComment).isEmpty();
-    }
-
-    private static List<Long> getBooksIds() {
-        return LongStream.range(1, 4).boxed().toList();
     }
 }
