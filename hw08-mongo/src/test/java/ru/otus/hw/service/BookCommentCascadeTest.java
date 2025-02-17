@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.events.MongoBookCascadeDeleteEventsListener;
 import ru.otus.hw.mapper.LibraryMapperImpl;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.BookServiceImpl;
@@ -23,8 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 @Import({CommentServiceImpl.class,
         BookServiceImpl.class,
-        LibraryMapperImpl.class,
-        MongoBookCascadeDeleteEventsListener.class
+        LibraryMapperImpl.class
 })
 @DisplayName("Интеграционный тест на проверку каскадного удаления")
 public class BookCommentCascadeTest {

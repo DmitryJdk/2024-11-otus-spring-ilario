@@ -10,6 +10,7 @@ import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
 import ru.otus.hw.repositories.BookRepository;
+import ru.otus.hw.repositories.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,16 +25,16 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
+    private final CommentRepository commentRepository;
+
     private final LibraryMapper libraryMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<BookDto> findById(String id) {
         return bookRepository.findById(id).map(libraryMapper::bookToBookDto);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<BookDto> findAll() {
         return bookRepository.findAll().stream()
                 .map(libraryMapper::bookToBookDto)
@@ -55,6 +56,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteById(String id) {
+        commentRepository.deleteByBookId(id);
         bookRepository.deleteById(id);
     }
 
