@@ -1,6 +1,7 @@
 package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,9 +10,12 @@ import ru.otus.hw.mapper.LibraryMapper;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
+import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
+import ru.otus.hw.repositories.GenreRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -26,6 +31,10 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     private final CommentRepository commentRepository;
+
+    private final AuthorRepository authorRepository;
+
+    private final GenreRepository genreRepository;
 
     private final LibraryMapper libraryMapper;
 
@@ -43,14 +52,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public BookDto insert(String title, String authorFullName, Set<String> genreNames) {
-        return libraryMapper.bookToBookDto(save(null, title, authorFullName, genreNames));
+    public BookDto insert(String title, String authorId, Set<String> genresId) {
+        return libraryMapper.bookToBookDto(save(null, title, authorId, genresId));
     }
 
     @Override
     @Transactional
-    public BookDto update(String id, String title, String authorFullName, Set<String> genreNames) {
-        return libraryMapper.bookToBookDto(save(id, title, authorFullName, genreNames));
+    public BookDto update(String id, String title, String authorId, Set<String> genresId) {
+        return libraryMapper.bookToBookDto(save(id, title, authorId, genresId));
     }
 
     @Override
@@ -60,15 +69,45 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
     }
 
-    private Book save(String id, String title, String fullName, Set<String> genreNames) {
-        if (isEmpty(genreNames)) {
+    private Book save(String id, String title, String authorId, Set<String> genresId) {
+        if (isEmpty(genresId)) {
             throw new IllegalArgumentException("Genres must not be null");
         }
-        if (StringUtils.isEmpty(fullName)) {
+        if (StringUtils.isEmpty(authorId)) {
             throw new IllegalArgumentException("Author must not be null");
         }
-        Set<Genre> genres = genreNames.stream().map(Genre::new).collect(Collectors.toSet());
-        var book = new Book(id, title, new Author(fullName), genres);
+        Author author = getAuthor(authorId);
+        Set<Genre> genres = getGenres(genresId);
+        var book = new Book(id, title, author, genres);
         return bookRepository.save(book);
+    }
+
+    private Author getAuthor(String authorId) {
+        var author = authorRepository.findById(authorId)
+                .orElse(new Author(authorId));
+        if (author.getId() == null) {
+            log.info("Передан новый автор, сохраняем его, считаем, что передано имя");
+            authorRepository.insert(author);
+        }
+        return author;
+    }
+
+    private Set<Genre> getGenres(Set<String> genresId) {
+        var genresInDb = genreRepository.findAllById(genresId);
+        if (genresInDb.size() == genresId.size()) {
+            return new HashSet<>(genresInDb);
+        }
+        log.info("Переданы новые жанры, сохраняем их, считаем, что переданы имена");
+        var newGenres = genresId.stream()
+                .filter(id -> genresInDb
+                        .stream()
+                        .noneMatch(genre -> genre.getId().equals(id))
+                )
+                .map(Genre::new)
+                .peek(genreRepository::insert)
+                .collect(Collectors.toSet());
+        var resultSet = new HashSet<>(genresInDb);
+        resultSet.addAll(newGenres);
+        return resultSet;
     }
 }

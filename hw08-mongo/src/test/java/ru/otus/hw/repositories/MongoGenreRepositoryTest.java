@@ -8,25 +8,17 @@ import ru.otus.hw.util.TestDataUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий Mongo для работы с вложенными сущностями ")
+@DisplayName("Репозиторий Mongo для работы с жанрами")
 @DataMongoTest
-public class MongoBookRepositoryCustomTest {
+public class MongoGenreRepositoryTest {
 
     @Autowired
-    private BookRepository repository;
-
-    @Test
-    @DisplayName("Должен грузить список всех авторов без повторений")
-    void shouldReturnAllAuthorsWithoutRepeating() {
-        var actualAuthors = repository.findAllAuthors();
-        var expectedAuthors = TestDataUtil.authors;
-        assertThat(actualAuthors).containsExactlyInAnyOrderElementsOf(expectedAuthors);
-    }
+    private GenreRepository repository;
 
     @Test
     @DisplayName("Должен грузить список всех жанров без повторений")
     void shouldReturnAllGenresWithoutRepeating() {
-        var actualGenres = repository.findAllGenres();
+        var actualGenres = repository.findAll();
         var expectedGenres = TestDataUtil.genres;
         assertThat(actualGenres).containsExactlyInAnyOrderElementsOf(expectedGenres);
     }

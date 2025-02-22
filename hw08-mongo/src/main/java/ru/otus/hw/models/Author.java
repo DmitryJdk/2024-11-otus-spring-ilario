@@ -16,7 +16,6 @@ public class Author {
     private String fullName;
 
     public Author(String fullName) {
-        this.id = fullName;
         this.fullName = fullName;
     }
 }

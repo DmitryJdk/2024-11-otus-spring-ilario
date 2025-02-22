@@ -7,8 +7,10 @@ import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
+import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
+import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,10 @@ import java.util.Set;
 @ChangeLog
 public class DatabaseChangelog {
 
+    private List<Author> authors;
+
+    private List<Genre> genres;
+
     private List<Book> books;
 
     @ChangeSet(order = "001", id = "init", author = "dmitryJdk", runAlways = true)
@@ -25,20 +31,43 @@ public class DatabaseChangelog {
         db.drop();
     }
 
-    @ChangeSet(order = "002", id = "insertBooks", author = "dmitryJdk", runAlways = true)
-    public void insertBooks(BookRepository repository) {
-        List<Book> books = List.of(
-                new Book("Book_1", new Author("Author_1"),
-                        Set.of(new Genre("Genre_1"), new Genre("Genre_2"))),
-                new Book("Book_2", new Author("Author_2"),
-                        Set.of(new Genre("Genre_3"), new Genre("Genre_4"))),
-                new Book("Book_3", new Author("Author_3"),
-                        Set.of(new Genre("Genre_5"), new Genre("Genre_6")))
+    @ChangeSet(order = "002", id = "authors", author = "dmitryJdk", runAlways = true)
+    public void insertAuthors(AuthorRepository authorRepository) {
+        List<Author> authors = List.of(
+                new Author("Author_1"),
+                new Author("Author_2"),
+                new Author("Author_3")
         );
-        this.books = repository.insert(books);
+        this.authors = authorRepository.insert(authors);
     }
 
-    @ChangeSet(order = "003", id = "insertComments", author = "dmitryJdk", runAlways = true)
+    @ChangeSet(order = "003", id = "genres", author = "dmitryJdk", runAlways = true)
+    public void insertGenres(GenreRepository genreRepository) {
+        List<Genre> genres = List.of(
+                new Genre("Genre_1"),
+                new Genre("Genre_2"),
+                new Genre("Genre_3"),
+                new Genre("Genre_4"),
+                new Genre("Genre_5"),
+                new Genre("Genre_6")
+        );
+        this.genres = genreRepository.insert(genres);
+    }
+
+    @ChangeSet(order = "004", id = "insertBooks", author = "dmitryJdk", runAlways = true)
+    public void insertBooks(BookRepository bookRepository) {
+        List<Book> books = List.of(
+                new Book("Book_1", authors.get(0),
+                        Set.of(genres.get(0), genres.get(1))),
+                new Book("Book_2", authors.get(1),
+                        Set.of(genres.get(2), genres.get(3))),
+                new Book("Book_3", authors.get(2),
+                        Set.of(genres.get(4), genres.get(5)))
+        );
+        this.books = bookRepository.insert(books);
+    }
+
+    @ChangeSet(order = "005", id = "insertComments", author = "dmitryJdk", runAlways = true)
     public void insertComments(CommentRepository commentRepository) {
         List<Comment> comments = new ArrayList<>();
         books.forEach(book ->

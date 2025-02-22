@@ -1,3 +1,3 @@
 package ru.otus.hw.dto;
 
-public record GenreDto(String name) {}
+public record GenreDto(String id, String name) {}
