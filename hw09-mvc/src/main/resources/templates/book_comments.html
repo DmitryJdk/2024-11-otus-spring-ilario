@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Library</title>
+    <link th:href="@{/site.css}" rel="stylesheet"/>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Text</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.id}">0</td>
+        <td th:text="${comment.text}">title</td>
+        <td>
+            <form action="#" th:action="@{/book/{bookId}/comment/{id}(bookId=${bookId},id=${comment.id})}"
+                  th:method="get">
+                <button class="action_btn" type="submit">Edit</button>
+            </form>
+            <form action="#" th:action="@{/book/{bookId}/comment/{id}(bookId=${bookId},id=${comment.id})}"
+                  th:method="delete">
+                <button class="action_btn" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="./comment_add.html" th:href="@{/book/{bookId}/comment/add(bookId=${bookId})}">Add Comment</a>
+<a href="/book">Back</a>
+</body>
+</html>
