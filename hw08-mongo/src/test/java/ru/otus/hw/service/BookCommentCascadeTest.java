@@ -12,9 +12,9 @@ import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.BookServiceImpl;
 import ru.otus.hw.services.CommentService;
 import ru.otus.hw.services.CommentServiceImpl;
+import ru.otus.hw.util.TestDataUtil;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,7 +36,9 @@ public class BookCommentCascadeTest {
     @Test
     @DisplayName("должен удалять комментарии при удалении книги")
     void shouldDeleteCommentsWhenBookDeleted() {
-        var bookDto = bookService.insert("test book", "test author", Set.of("Genre1", "Genre2"));
+        var authorId = TestDataUtil.getAuthorId(0);
+        var genreId = TestDataUtil.getGenresId(0, 1);
+        var bookDto = bookService.insert("test book", authorId, genreId);
         assertThat(bookDto.id()).isNotNull();
 
         var commentDto1 = commentService.insert("test1", bookDto.id());

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.mapper.LibraryMapperImpl;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.BookServiceImpl;
+import ru.otus.hw.util.TestDataUtil;
 
 import java.util.Set;
 
@@ -44,7 +45,9 @@ public class BookServiceTest {
     @Test
     @DisplayName("должен сохранять новую книгу")
     void shouldSaveNewBook() {
-        var book = bookService.insert("NewBook_4", "Test_Author", Set.of("Genre", "Genre2"));
+        var authorId = TestDataUtil.getAuthorId(1);
+        var genreId = TestDataUtil.getGenresId(1, 4);
+        var book = bookService.insert("NewBook_4", authorId, genreId);
         assertThat(book.id()).isNotNull();
         var bookFromRepository = bookService.findById(book.id());
         assertThat(bookFromRepository).
@@ -74,9 +77,13 @@ public class BookServiceTest {
     @Test
     @DisplayName("должен обновлять сохраненную книгу")
     void shouldUpdateSavedComment() {
-        var book = bookService.insert("NewBook_4", "Test_Author", Set.of("Genre", "Genre2"));
+        var authorId = TestDataUtil.getAuthorId(1);
+        var genreId = TestDataUtil.getGenresId(1, 2);
+        var book = bookService.insert("NewBook_4", authorId, genreId);
         assertThat(book.id()).isNotNull();
-        var updatedBook = bookService.update(book.id(), "New Title 2", "TTA", Set.of("G3", "G4"));
+        var updatedAuthorId = TestDataUtil.getAuthorId(0);
+        var updatedGenresIds = TestDataUtil.getGenresId(0, 5);
+        var updatedBook = bookService.update(book.id(), "New Title 2", updatedAuthorId, updatedGenresIds);
         var actualBook = bookService.findById(book.id());
         assertThat(actualBook)
                 .isPresent()
@@ -87,7 +94,9 @@ public class BookServiceTest {
     @Test
     @DisplayName("должен удалить книгу по id")
     void shouldDeleteBookById() {
-        var book = bookService.insert("NewBook_4", "Test_Author", Set.of("Genre", "Genre2"));
+        var authorId = TestDataUtil.getAuthorId(2);
+        var genreId = TestDataUtil.getGenresId(3, 4);
+        var book = bookService.insert("NewBook_4", authorId, genreId);
         assertThat(book.id()).isNotNull();
         bookService.deleteById(book.id());
         var deletedBook = bookService.findById(book.id());

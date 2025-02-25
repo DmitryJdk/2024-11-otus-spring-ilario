@@ -14,12 +14,12 @@ import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
 import ru.otus.hw.repositories.GenreRepository;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -76,38 +76,13 @@ public class BookServiceImpl implements BookService {
         if (StringUtils.isEmpty(authorId)) {
             throw new IllegalArgumentException("Author must not be null");
         }
-        Author author = getAuthor(authorId);
-        Set<Genre> genres = getGenres(genresId);
+        Author author = authorRepository.findById(authorId)
+                .orElseThrow(() -> new EntityNotFoundException("No author found"));
+        Set<Genre> genres = new HashSet<>(genreRepository.findAllById(genresId));
+        if (genres.size() != genresId.size()) {
+            throw new EntityNotFoundException("Genres not found");
+        }
         var book = new Book(id, title, author, genres);
         return bookRepository.save(book);
-    }
-
-    private Author getAuthor(String authorId) {
-        var author = authorRepository.findById(authorId)
-                .orElse(new Author(authorId));
-        if (author.getId() == null) {
-            log.info("Передан новый автор, сохраняем его, считаем, что передано имя");
-            authorRepository.insert(author);
-        }
-        return author;
-    }
-
-    private Set<Genre> getGenres(Set<String> genresId) {
-        var genresInDb = genreRepository.findAllById(genresId);
-        if (genresInDb.size() == genresId.size()) {
-            return new HashSet<>(genresInDb);
-        }
-        log.info("Переданы новые жанры, сохраняем их, считаем, что переданы имена");
-        var newGenres = genresId.stream()
-                .filter(id -> genresInDb
-                        .stream()
-                        .noneMatch(genre -> genre.getId().equals(id))
-                )
-                .map(Genre::new)
-                .peek(genreRepository::insert)
-                .collect(Collectors.toSet());
-        var resultSet = new HashSet<>(genresInDb);
-        resultSet.addAll(newGenres);
-        return resultSet;
     }
 }
