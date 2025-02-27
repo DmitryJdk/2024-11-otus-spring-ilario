@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.mapper.LibraryMapper;
 import ru.otus.hw.mapper.LibraryMapperImpl;
 import ru.otus.hw.services.CommentService;
@@ -16,7 +14,6 @@ import ru.otus.hw.util.TestDataUtil;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataMongoTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 @Import({CommentServiceImpl.class,
         LibraryMapperImpl.class
 })
