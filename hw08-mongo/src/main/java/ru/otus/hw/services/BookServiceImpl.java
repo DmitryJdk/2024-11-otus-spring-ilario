@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.mapper.LibraryMapper;
 import ru.otus.hw.models.Author;
@@ -51,19 +50,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public BookDto insert(String title, String authorId, Set<String> genresId) {
         return libraryMapper.bookToBookDto(save(null, title, authorId, genresId));
     }
 
     @Override
-    @Transactional
     public BookDto update(String id, String title, String authorId, Set<String> genresId) {
         return libraryMapper.bookToBookDto(save(id, title, authorId, genresId));
     }
 
     @Override
-    @Transactional
     public void deleteById(String id) {
         commentRepository.deleteByBookId(id);
         bookRepository.deleteById(id);

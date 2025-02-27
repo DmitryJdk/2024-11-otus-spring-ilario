@@ -2,7 +2,6 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.mapper.LibraryMapper;
@@ -24,31 +23,26 @@ public class CommentServiceImpl implements CommentService {
     private final LibraryMapper libraryMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<CommentDto> findById(String id) {
         return commentRepository.findById(id).map(libraryMapper::commentToCommentDto);
     }
 
     @Override
-    @Transactional
     public CommentDto insert(String text, String bookId) {
         return libraryMapper.commentToCommentDto(save(null, text, bookId));
     }
 
     @Override
-    @Transactional
     public CommentDto update(String id, String text, String bookId) {
         return libraryMapper.commentToCommentDto(save(id, text, bookId));
     }
 
     @Override
-    @Transactional
     public void deleteById(String id) {
         commentRepository.deleteById(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<CommentDto> findByBookId(String id) {
         return commentRepository.findByBookId(id)
                 .stream()
