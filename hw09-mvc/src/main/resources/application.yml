@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: hw08-mongo
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+mongock:
+  change-logs-scan-package:
+    - ru.otus.hw.mongock
+  runner-type: InitializingBean
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
