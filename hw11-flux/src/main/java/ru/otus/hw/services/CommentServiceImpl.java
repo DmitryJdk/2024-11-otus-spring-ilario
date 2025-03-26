@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.mapper.LibraryMapper;
+import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
@@ -42,8 +43,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Mono<Void> deleteById(String id) {
-        return commentRepository.deleteById(id)
-                .then(Mono.empty());
+        return commentRepository.deleteById(id);
     }
 
     @Override
@@ -53,19 +53,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private Mono<Comment> save(String id, String text, String bookId) {
-        var book = bookRepository.findById(bookId)
+        Mono<Book> book = bookRepository.findById(bookId)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("Book not found for comments")));
         var comment = new Comment();
-        return Mono.just(comment)
-                .map(c -> {
-                    c.setId(id);
-                    c.setText(text);
-                    return c;
-                })
-                .zipWith(book)
-                .flatMap(c -> {
-                    c.getT1().setBook(c.getT2());
-                    return commentRepository.save(c.getT1());
-                });
+        comment.setId(id);
+        comment.setText(text);
+        return book.flatMap(b -> {
+                    comment.setBook(b);
+                    return commentRepository.save(comment);
+                }
+        );
     }
 }

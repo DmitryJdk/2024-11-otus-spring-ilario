@@ -11,7 +11,7 @@ class Genres extends React.Component {
     }
 
     componentDidMount() {
-        fetchNdjson(this, "/genre", 'genres').then(r => {
+        fetchNdjson(this, "/api/genre", 'genres').then(r => {
             console.log(r)
         });
     }

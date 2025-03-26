@@ -65,41 +65,30 @@ public class BookServiceImpl implements BookService {
     @Override
     public Mono<Void> deleteById(String id) {
         return commentRepository.deleteByBookId(id)
-                .then(bookRepository.deleteById(id))
-                .then(Mono.empty());
+                .then(bookRepository.deleteById(id));
     }
 
     private Mono<Book> save(String id, String title, String authorId, Set<String> genresId) {
-        checkRequest(authorId, genresId);
-        Mono<Author> author = authorRepository.findById(authorId)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("No author found")));
-        Flux<Genre> genres = genreRepository.findAllById(genresId)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("Genres not found")));
-        var book = new Book();
-        return Mono.just(book)
-                .map(b -> {
-                    b.setId(id);
-                    b.setTitle(title);
-                    return b;
-                })
-                .zipWith(author)
-                .map(b -> {
-                    b.getT1().setAuthor(b.getT2());
-                    return b.getT1();
-                })
-                .zipWith(genres.collectList())
-                .flatMap(b -> {
-                    b.getT1().setGenres(new HashSet<>(b.getT2()));
-                    return bookRepository.save(b.getT1());
-                });
-    }
-
-    private void checkRequest(String authorId, Set<String> genresId) {
         if (StringUtils.isEmpty(authorId)) {
             throw new IllegalArgumentException("Author must not be null");
         }
         if (isEmpty(genresId)) {
             throw new IllegalArgumentException("Genres must not be null");
         }
+        Mono<Author> author = authorRepository.findById(authorId)
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("No author found")));
+        Flux<Genre> genres = genreRepository.findAllById(genresId)
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("Genres not found")));
+        var book = new Book();
+        book.setId(id);
+        book.setTitle(title);
+        book.setGenres(new HashSet<>());
+
+        return genres.map(g -> book.getGenres().add(g))
+                .then(author)
+                .flatMap(a -> {
+                    book.setAuthor(a);
+                    return bookRepository.save(book);
+                });
     }
 }

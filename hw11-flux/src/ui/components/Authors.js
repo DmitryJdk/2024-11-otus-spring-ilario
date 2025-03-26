@@ -11,7 +11,7 @@ class Authors extends React.Component {
     }
 
     componentDidMount() {
-        fetchNdjson(this, "/author", 'authors')
+        fetchNdjson(this, "/api/author", 'authors')
             .then(r => {
                 console.log(r)
             });

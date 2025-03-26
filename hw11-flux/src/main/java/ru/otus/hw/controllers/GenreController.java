@@ -14,7 +14,7 @@ public class GenreController {
 
     private final GenreService genreService;
 
-    @GetMapping(value = "/genre", produces = MediaType.APPLICATION_NDJSON_VALUE)
+    @GetMapping(value = "/api/genre", produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<GenreDto> findAllGenres() {
         return genreService.findAll();
     }

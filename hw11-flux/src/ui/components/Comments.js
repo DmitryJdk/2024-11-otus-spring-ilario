@@ -21,7 +21,7 @@ class Comments extends React.Component {
     }
 
     componentDidMount() {
-        fetchNdjson(this, "/book/" + this.props.params.id + "/comment", 'comments')
+        fetchNdjson(this, "/api/book/" + this.props.params.id + "/comment", 'comments')
             .then(r => {
                 console.log(r)
             });
@@ -60,7 +60,7 @@ class Comments extends React.Component {
     }
 
     deleteComment(bookId, id) {
-        fetch('/book/' + bookId + '/comment/' + id, {
+        fetch('/api/book/' + bookId + '/comment/' + id, {
             method: 'DELETE',
         }).then(_ => this.componentDidMount());
     }

@@ -14,7 +14,7 @@ public class AuthorController {
 
     private final AuthorService authorService;
 
-    @GetMapping(value = "/author", produces = MediaType.APPLICATION_NDJSON_VALUE)
+    @GetMapping(value = "/api/author", produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<AuthorDto> findAllAuthors() {
         return authorService.findAll();
     }

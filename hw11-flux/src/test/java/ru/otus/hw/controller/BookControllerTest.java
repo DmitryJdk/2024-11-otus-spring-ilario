@@ -24,13 +24,9 @@ import java.util.stream.Collectors;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@WebFluxTest(BookController.class)
-@Import(BookController.class)
+@WebFluxTest(controllers = BookController.class, properties = "mongock.enabled=false")
 @DisplayName("Тесты контроллера книг")
 public class BookControllerTest {
-
-    @Configuration
-    static class Config {}
 
     @MockitoBean
     private BookService bookService;
@@ -45,7 +41,7 @@ public class BookControllerTest {
         when(bookService.findAll()).thenReturn(Flux.fromIterable(expectedBooksDto));
 
         var result = mvc.get()
-                .uri("/book")
+                .uri("/api/book")
                 .exchange()
                 .expectHeader().contentType(MediaType.APPLICATION_NDJSON_VALUE)
                 .returnResult(BookDto.class);
@@ -62,7 +58,7 @@ public class BookControllerTest {
         when(bookService.findById(expectedBookDto.id()))
                 .thenReturn(Mono.just(expectedBookDto));
         var result = mvc.get()
-                .uri("/book/" + expectedBookDto.id())
+                .uri("/api/book/" + expectedBookDto.id())
                 .exchange()
                 .expectHeader().contentType(MediaType.APPLICATION_NDJSON_VALUE)
                 .returnResult(BookDto.class);
@@ -78,8 +74,8 @@ public class BookControllerTest {
         var genresIds = book.getGenres().stream().map(Genre::getId).collect(Collectors.toSet());
         var requestBody = new BookRequest(book.getTitle(), book.getAuthor().getId(), genresIds);
         when(bookService.update(any(), any(), any(),any())).thenReturn(Mono.empty());
-        mvc.post()
-                .uri("/book/" + book.getId())
+        mvc.put()
+                .uri("/api/book/" + book.getId())
                 .body(Mono.just(requestBody), BookRequest.class)
                 .exchange()
                 .expectStatus().isOk();
@@ -91,7 +87,7 @@ public class BookControllerTest {
         var expectedBookDto = TestDataUtil.bookDto.get(0);
         when(bookService.deleteById(expectedBookDto.id())).thenReturn(Mono.empty());
         mvc.delete()
-                .uri("/book/" + expectedBookDto.id())
+                .uri("/api/book/" + expectedBookDto.id())
                 .exchange()
                 .expectStatus().isOk();
     }
@@ -103,7 +99,7 @@ public class BookControllerTest {
         var genresIds = book.getGenres().stream().map(Genre::getId).collect(Collectors.toSet());
         var requestBody = new BookRequest(book.getTitle(), book.getAuthor().getId(), genresIds);
         mvc.post()
-                .uri("/book/add")
+                .uri("/api/book")
                 .body(Mono.just(requestBody), BookRequest.class)
                 .exchange()
                 .expectStatus().isOk();

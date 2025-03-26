@@ -11,7 +11,7 @@ class Books extends React.Component {
     }
 
     componentDidMount() {
-        fetchNdjson(this, "/book", 'books').then(r => {
+        fetchNdjson(this, "/api/book", 'books').then(r => {
             console.log(r)
         });
     }
@@ -57,7 +57,7 @@ class Books extends React.Component {
     }
 
     deleteBook(id) {
-        fetch('/book/' + id, {
+        fetch('/api/book/' + id, {
             method: 'DELETE',
         }).then(_ => this.componentDidMount());
     }
