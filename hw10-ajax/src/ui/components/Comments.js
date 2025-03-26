@@ -20,7 +20,7 @@ class Comments extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/book/' + this.props.params.id + '/comment')
+        fetch('/api/book/' + this.props.params.id + '/comment')
             .then(response => response.json())
             .then(comments => this.setState({comments}));
     }
@@ -58,7 +58,7 @@ class Comments extends React.Component {
     }
 
     deleteComment(bookId, id) {
-        fetch('/book/' + bookId + '/comment/' + id, {
+        fetch('/api/book/' + bookId + '/comment/' + id, {
             method: 'DELETE',
         }).then(_ => this.componentDidMount());
     }

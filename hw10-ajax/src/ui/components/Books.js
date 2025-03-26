@@ -10,7 +10,7 @@ class Books extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/book')
+        fetch('/api/book')
             .then(response => response.json())
             .then(books => this.setState({books}));
     }
@@ -56,7 +56,7 @@ class Books extends React.Component {
     }
 
     deleteBook(id) {
-        fetch('/book/' + id, {
+        fetch('/api/book/' + id, {
             method: 'DELETE',
         }).then(_ => this.componentDidMount());
     }

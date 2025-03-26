@@ -23,13 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(BookController.class)
-@Import(BookController.class)
+@WebMvcTest(controllers = BookController.class, properties = "mongock.enabled=false")
 @DisplayName("Тесты контроллера книг")
 public class BookControllerTest {
-
-    @Configuration
-    static class Config {}
 
     @Autowired
     private MockMvc mvc;
@@ -44,7 +40,7 @@ public class BookControllerTest {
     void shouldReturnAllBooks() throws Exception {
         var expectedBooksDto = TestDataUtil.bookDto;
         when(bookService.findAll()).thenReturn(expectedBooksDto);
-        mvc.perform(get("/book"))
+        mvc.perform(get("/api/book"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(expectedBooksDto)));
     }
@@ -54,7 +50,7 @@ public class BookControllerTest {
     void shouldOpenBookGetBookWithBook() throws Exception {
         var expectedBookDto = TestDataUtil.bookDto.get(0);
         when(bookService.findById(expectedBookDto.id())).thenReturn(Optional.of(expectedBookDto));
-        mvc.perform(get("/book/" + expectedBookDto.id()))
+        mvc.perform(get("/api/book/" + expectedBookDto.id()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(expectedBookDto)));
     }
@@ -65,7 +61,7 @@ public class BookControllerTest {
         var book = TestDataUtil.books.get(0);
         var genresIds = book.getGenres().stream().map(Genre::getId).collect(Collectors.toSet());
         var requestBody = new BookRequest(book.getTitle(), book.getAuthor().getId(), genresIds);
-        mvc.perform(post("/book/" + book.getId())
+        mvc.perform(put("/api/book/" + book.getId())
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(requestBody)))
                 .andExpect(status().isOk());
@@ -75,7 +71,7 @@ public class BookControllerTest {
     @DisplayName("должен успешно удалять книгу")
     void shouldReturnToBookPageAfterDelete() throws Exception {
         var expectedBookDto = TestDataUtil.bookDto.get(0);
-        mvc.perform(delete("/book/" + expectedBookDto.id()))
+        mvc.perform(delete("/api/book/" + expectedBookDto.id()))
                 .andExpect(status().isOk());
     }
 
@@ -85,7 +81,7 @@ public class BookControllerTest {
         var book = TestDataUtil.books.get(0);
         var genresIds = book.getGenres().stream().map(Genre::getId).collect(Collectors.toSet());
         var requestBody = new BookRequest(book.getTitle(), book.getAuthor().getId(), genresIds);
-        mvc.perform(post("/book/add")
+        mvc.perform(post("/api/book")
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(requestBody)))
                 .andExpect(status().isOk());

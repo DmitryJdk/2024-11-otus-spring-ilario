@@ -10,7 +10,7 @@ class Genres extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/genre')
+        fetch('/api/genre')
             .then(response => response.json())
             .then(genres => this.setState({genres}));
     }

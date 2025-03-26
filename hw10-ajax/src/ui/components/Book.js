@@ -20,13 +20,13 @@ class Book extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/book/' + this.props.params.id)
+        fetch('/api/book/' + this.props.params.id)
             .then(response => response.json())
             .then(book => this.setState({book}));
-        fetch('/author')
+        fetch('/api/author')
             .then(response => response.json())
             .then(authors => this.setState({authors}));
-        fetch('/genre')
+        fetch('/api/genre')
             .then(response => response.json())
             .then(genres => this.setState({genres}));
     }
@@ -94,8 +94,8 @@ class Book extends React.Component {
         let genresSelected = document.getElementById("genres-input").selectedOptions
         let genreValues = Array.from(genresSelected).map(({value}) => value);
         console.log("editing book");
-        let response = await fetch('/book/' + id, {
-            method: 'POST',
+        let response = await fetch('/api/book/' + id, {
+            method: 'PUT',
             redirect: 'follow',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({title: titleValue, authorId: authorValue, genresIds: genreValues})

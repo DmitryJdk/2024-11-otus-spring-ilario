@@ -10,7 +10,7 @@ class Authors extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/author')
+        fetch('/api/author')
             .then(response => response.json())
             .then(authors => this.setState({authors}));
     }

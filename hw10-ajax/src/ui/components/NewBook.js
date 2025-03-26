@@ -19,10 +19,10 @@ class NewBook extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/author')
+        fetch('/api/author')
             .then(response => response.json())
             .then(authors => this.setState({authors}));
-        fetch('/genre')
+        fetch('/api/genre')
             .then(response => response.json())
             .then(genres => this.setState({genres}));
     }
@@ -79,7 +79,7 @@ class NewBook extends React.Component {
         let genresSelected = document.getElementById("genres-input").selectedOptions
         let genreValues = Array.from(genresSelected).map(({value}) => value);
         console.log("creating book");
-        let response = await fetch('/book/add', {
+        let response = await fetch('/api/book', {
             method: 'POST',
             redirect: 'follow',
             headers: {'Content-Type': 'application/json'},
