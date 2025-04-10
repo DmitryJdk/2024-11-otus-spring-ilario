@@ -82,13 +82,11 @@ public class BookServiceImpl implements BookService {
         var book = new Book();
         book.setId(id);
         book.setTitle(title);
-        book.setGenres(new HashSet<>());
-
-        return genres.map(g -> book.getGenres().add(g))
-                .then(author)
-                .flatMap(a -> {
-                    book.setAuthor(a);
-                    return bookRepository.save(book);
-                });
+        return Mono.zip(author, genres.collectList())
+                .map(t -> {
+                    book.setAuthor(t.getT1());
+                    book.setGenres(new HashSet<>(t.getT2()));
+                    return book;
+                }).flatMap(bookRepository::save);
     }
 }
