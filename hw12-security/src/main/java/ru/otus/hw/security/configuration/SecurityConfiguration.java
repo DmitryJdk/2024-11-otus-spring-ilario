@@ -16,10 +16,11 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
-                        authorize.anyRequest()
-                                .authenticated())
+                        authorize.anyRequest().authenticated()
+                )
                 .formLogin(Customizer.withDefaults());
         return http.build();
     }

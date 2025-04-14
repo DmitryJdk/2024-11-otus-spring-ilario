@@ -1,6 +1,5 @@
 package ru.otus.hw.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -9,23 +8,23 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.otus.hw.AbstractSecurityTest;
-import ru.otus.hw.controllers.BookController;
-import ru.otus.hw.services.BookService;
+import ru.otus.hw.controllers.GenreController;
+import ru.otus.hw.services.GenreService;
 import ru.otus.hw.util.SecurityEndpointsProvider;
 
 import java.util.stream.Stream;
 
-@WebMvcTest(controllers = BookController.class)
-@DisplayName("Security тесты контроллера книг")
-public class SecurityBookControllerTest extends AbstractSecurityTest {
+@WebMvcTest(controllers = GenreController.class)
+@DisplayName("Security тесты контроллера жанров")
+public class SecurityGenreControllerTest extends AbstractSecurityTest {
 
     @MockitoBean
-    private BookService bookService;
+    private GenreService authorService;
 
     @ParameterizedTest
     @MethodSource("endpoints")
-    @DisplayName("Проверка доступности api книг")
-    void bookEndpointsAccessibility(HttpMethod method,
+    @DisplayName("Проверка доступности api жанров")
+    void genreEndpointsAccessibility(HttpMethod method,
                                  String url,
                                  String user,
                                  String request,
@@ -33,7 +32,7 @@ public class SecurityBookControllerTest extends AbstractSecurityTest {
         checkRequest(method, url, user, request, statusCode);
     }
 
-    public static Stream<Arguments> endpoints() throws JsonProcessingException {
-        return SecurityEndpointsProvider.bookEndpoints();
+    public static Stream<Arguments> endpoints() {
+        return SecurityEndpointsProvider.genreEndpoints();
     }
 }
