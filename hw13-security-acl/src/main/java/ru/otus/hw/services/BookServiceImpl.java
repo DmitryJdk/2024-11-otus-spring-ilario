@@ -1,6 +1,7 @@
 package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.BookDto;
@@ -40,6 +41,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
+    @PostFilter("hasPermission(filterObject.author, 'READ')")
     public List<BookDto> findAll() {
         return bookRepository.findAll().stream()
                 .map(libraryMapper::bookToBookDto)

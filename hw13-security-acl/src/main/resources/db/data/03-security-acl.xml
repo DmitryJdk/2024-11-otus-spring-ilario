@@ -25,7 +25,7 @@
     <changeSet id="2" author="dmitryjdk">
         <insert tableName="acl_class">
             <column name="id">1</column>
-            <column name="class">ru.otus.hw.models.Author</column>
+            <column name="class">ru.otus.hw.dto.AuthorDto</column>
         </insert>
     </changeSet>
 

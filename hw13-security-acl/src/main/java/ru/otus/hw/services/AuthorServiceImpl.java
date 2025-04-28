@@ -1,6 +1,7 @@
 package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.mapper.LibraryMapper;
@@ -16,6 +17,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final LibraryMapper libraryMapper;
 
     @Override
+    @PostFilter("hasPermission(filterObject, 'READ')")
     public List<AuthorDto> findAll() {
         return authorRepository.findAll().stream()
                 .map(libraryMapper::authorToAuthorDto)

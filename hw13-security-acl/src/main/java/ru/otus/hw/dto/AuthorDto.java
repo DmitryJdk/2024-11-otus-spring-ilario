@@ -1,3 +1,5 @@
 package ru.otus.hw.dto;
 
-public record AuthorDto(Long id, String fullName) { }
+import lombok.Getter;
+
+public record AuthorDto(@Getter Long id, String fullName) { }
