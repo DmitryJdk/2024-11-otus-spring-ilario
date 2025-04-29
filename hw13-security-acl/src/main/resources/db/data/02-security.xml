@@ -8,12 +8,12 @@
         <insert tableName="users">
             <column name="username">user</column>
             <column name="password">$2a$10$QUjJsc3wQI5tvtPgXrRtAerFGHngp9RVSo9d7DtZLvyLNqwtlimTC</column>
-            <column name="role">ROLE_USER</column>
+            <column name="role">USER</column>
         </insert>
         <insert tableName="users">
             <column name="username">user1</column>
             <column name="password">$2a$10$QUjJsc3wQI5tvtPgXrRtAerFGHngp9RVSo9d7DtZLvyLNqwtlimTC</column>
-            <column name="role">ROLE_USER</column>
+            <column name="role">USER</column>
         </insert>
     </changeSet>
 
