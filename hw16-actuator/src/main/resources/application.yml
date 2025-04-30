@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: hw16-actuator
+  datasource:
+    url: jdbc:h2:mem:maindb
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  liquibase:
+    change-log: classpath:/db/changelog.xml
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+---
+spring:
+  jmx:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, loggers, logfile
+  endpoint:
+    health:
+      show-details: always
+    logfile:
+      external-file: library.log
+
+logging:
+  file:
+    name: library.log

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Library</title>
+    <link th:href="@{/site.css}" rel="stylesheet"/>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genres</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}" th:onclick="|location.href='@{/book/{id}/comment(id=${book.id})}'|">
+        <td th:text="${book.id}">0</td>
+        <td th:text="${book.title}">title</td>
+        <td th:text="${book.author.fullName}">author</td>
+        <td th:text="${#strings.setJoin(book.genres, ',')}">genres</td>
+        <td>
+            <form action="#" th:action="@{/book/{id}(id=${book.id})}" th:method="get">
+                <button class="action_btn" type="submit">Edit</button>
+            </form>
+            <form action="#" th:action="@{/book/{id}(id=${book.id})}" th:method="delete">
+                <button class="action_btn" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="./book_add.html" th:href="@{/book/add}">Add book</a>
+<a href="/">Back</a>
+</body>
+</html>
