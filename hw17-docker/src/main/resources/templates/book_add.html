@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Library</title>
+    <link th:href="@{/site.css}" rel="stylesheet"/>
+</head>
+<body>
+<form id="edit-form" action="book_add.html" th:method="put" th:action="@{/book/add}">
+    <h3>Book Info:</h3>
+
+    <div class="row">
+        <label for="title-input">Title:</label>
+        <input id="title-input" name="title" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="author-input">Author:</label>
+        <select id="author-input" name="authorId">
+            <option value="0">select author</option>
+            <option th:each="author : ${authors}" th:value="${author.id()}" th:text="${author.fullName()}"/>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="genres-input">Genres:</label>
+        <select id="genres-input" multiple="multiple" name="genresIds">
+            <option th:each="genre : ${genres}" th:value="${genre.id()}" th:text="${genre.name()}"/>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type='submit'>Add</button>
+    </div>
+</form>
+
+<a href="/book">Back</a>
+
+</body>
+</html>
