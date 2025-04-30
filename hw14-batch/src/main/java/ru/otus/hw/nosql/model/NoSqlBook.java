@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Set;
 
@@ -13,15 +14,17 @@ import java.util.Set;
 @Document("books")
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"genres", "author"})
-public class Book {
+@EqualsAndHashCode(exclude = {"noSqlGenres", "noSqlAuthor"})
+public class NoSqlBook {
 
     @Id
     private String id;
 
     private String title;
 
-    private Author author;
+    @Field(name = "author")
+    private NoSqlAuthor noSqlAuthor;
 
-    private Set<Genre> genres;
+    @Field(name = "genres")
+    private Set<NoSqlGenre> noSqlGenres;
 }

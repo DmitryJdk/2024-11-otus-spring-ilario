@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("genres")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Genre {
+public class NoSqlGenre {
 
     @Id
     private String id;

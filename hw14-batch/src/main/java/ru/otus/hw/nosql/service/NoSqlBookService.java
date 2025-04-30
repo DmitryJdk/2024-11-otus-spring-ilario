@@ -2,7 +2,7 @@ package ru.otus.hw.nosql.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.nosql.model.Book;
+import ru.otus.hw.nosql.model.NoSqlBook;
 import ru.otus.hw.nosql.repository.NoSqlBookRepository;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class NoSqlBookService {
 
     private final NoSqlBookRepository noSqlBookRepository;
 
-    public List<Book> getBooks() {
+    public List<NoSqlBook> getBooks() {
         return noSqlBookRepository.findAll();
     }
 

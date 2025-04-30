@@ -18,7 +18,7 @@ public class PostgresReaderConfiguration {
                 .name("postgresBookReader")
                 .entityManagerFactory(postgresEntityManagerFactory)
                 .queryString("SELECT b FROM Book b")
-                .pageSize(1)
+                .pageSize(3)
                 .build();
     }
 
@@ -28,7 +28,7 @@ public class PostgresReaderConfiguration {
                 .name("postgresAuthorReader")
                 .entityManagerFactory(postgresEntityManagerFactory)
                 .queryString("SELECT a FROM Author a")
-                .pageSize(1)
+                .pageSize(3)
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class PostgresReaderConfiguration {
                 .name("postgresGenreReader")
                 .entityManagerFactory(postgresEntityManagerFactory)
                 .queryString("SELECT g FROM Genre g")
-                .pageSize(1)
+                .pageSize(3)
                 .build();
     }
 }

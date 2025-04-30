@@ -2,7 +2,7 @@ package ru.otus.hw.nosql.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.nosql.model.Author;
+import ru.otus.hw.nosql.model.NoSqlAuthor;
 import ru.otus.hw.nosql.repository.NoSqlAuthorRepository;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class NoSqlAuthorService {
 
     private final NoSqlAuthorRepository noSqlAuthorRepository;
 
-    public List<Author> getAuthors() {
+    public List<NoSqlAuthor> getAuthors() {
         return noSqlAuthorRepository.findAll();
     }
 

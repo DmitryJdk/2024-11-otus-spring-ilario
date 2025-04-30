@@ -12,6 +12,9 @@ import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import ru.otus.hw.nosql.model.NoSqlAuthor;
+import ru.otus.hw.nosql.model.NoSqlBook;
+import ru.otus.hw.nosql.model.NoSqlGenre;
 import ru.otus.hw.sql.model.Author;
 import ru.otus.hw.sql.model.Book;
 import ru.otus.hw.sql.model.Genre;
@@ -24,11 +27,11 @@ public class JobConfig {
     public Step authorMigration(JobRepository jobRepository,
                                 PlatformTransactionManager transactionManager,
                                 JpaPagingItemReader<Author> reader,
-                                ItemProcessor<Author, ru.otus.hw.nosql.model.Author> authorMigrationProcessor,
-                                MongoItemWriter<ru.otus.hw.nosql.model.Author> mongoAuthorWriter) {
+                                ItemProcessor<Author, NoSqlAuthor> authorMigrationProcessor,
+                                MongoItemWriter<NoSqlAuthor> mongoAuthorWriter) {
 
         return new StepBuilder("authorMigration", jobRepository)
-                .<Author, ru.otus.hw.nosql.model.Author>chunk(1, transactionManager)
+                .<Author, NoSqlAuthor>chunk(3, transactionManager)
                 .reader(reader)
                 .processor(authorMigrationProcessor)
                 .writer(mongoAuthorWriter)
@@ -39,11 +42,11 @@ public class JobConfig {
     public Step genreMigration(JobRepository jobRepository,
                                 PlatformTransactionManager transactionManager,
                                 JpaPagingItemReader<Genre> reader,
-                                ItemProcessor<Genre, ru.otus.hw.nosql.model.Genre> genreMigrationProcessor,
-                                MongoItemWriter<ru.otus.hw.nosql.model.Genre> mongoGenreWriter) {
+                                ItemProcessor<Genre, NoSqlGenre> genreMigrationProcessor,
+                                MongoItemWriter<NoSqlGenre> mongoGenreWriter) {
 
         return new StepBuilder("genreMigration", jobRepository)
-                .<Genre, ru.otus.hw.nosql.model.Genre>chunk(1, transactionManager)
+                .<Genre, NoSqlGenre>chunk(3, transactionManager)
                 .reader(reader)
                 .processor(genreMigrationProcessor)
                 .writer(mongoGenreWriter)
@@ -54,11 +57,11 @@ public class JobConfig {
     public Step bookMigration(JobRepository jobRepository,
                                PlatformTransactionManager transactionManager,
                                JpaPagingItemReader<Book> reader,
-                               ItemProcessor<Book, ru.otus.hw.nosql.model.Book> bookMigrationProcessor,
-                               MongoItemWriter<ru.otus.hw.nosql.model.Book> mongoBookWriter) {
+                               ItemProcessor<Book, NoSqlBook> bookMigrationProcessor,
+                               MongoItemWriter<NoSqlBook> mongoBookWriter) {
 
         return new StepBuilder("bookMigration", jobRepository)
-                .<Book, ru.otus.hw.nosql.model.Book>chunk(1, transactionManager)
+                .<Book, NoSqlBook>chunk(3, transactionManager)
                 .reader(reader)
                 .processor(bookMigrationProcessor)
                 .writer(mongoBookWriter)

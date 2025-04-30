@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("authors")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Author {
+public class NoSqlAuthor {
 
     @Id
     private String id;

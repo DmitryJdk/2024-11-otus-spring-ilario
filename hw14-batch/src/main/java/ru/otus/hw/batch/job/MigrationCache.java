@@ -2,14 +2,15 @@ package ru.otus.hw.batch.job;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class MigrationCache {
 
-    private final ConcurrentHashMap<Long, String> authorsCache = new ConcurrentHashMap<>();
+    private final Map<Long, String> authorsCache = new ConcurrentHashMap<>();
 
-    private final ConcurrentHashMap<Long, String> genresCache = new ConcurrentHashMap<>();
+    private final Map<Long, String> genresCache = new ConcurrentHashMap<>();
 
     public void init() {
         authorsCache.clear();
