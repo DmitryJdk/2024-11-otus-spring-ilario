@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: hw18-resilence4j
+  cloud:
+    openfeign:
+      client:
+        config:
+          imoex:
+            url: http://localhost:8089/
