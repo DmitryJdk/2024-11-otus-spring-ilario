@@ -3,6 +3,7 @@ spring:
     name: hw17-docker
   datasource:
     url: jdbc:h2:mem:maindb
+    driver-class-name: org.h2.Driver
   jpa:
     generate-ddl: false
     hibernate:

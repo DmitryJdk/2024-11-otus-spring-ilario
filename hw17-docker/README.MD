@@ -3,7 +3,9 @@
 #### user/user
 #### user1/user
 
-mvn clean package && docker build -t library . && docker run -p 8080:8080 -p 8090:8090 -d -it library
+mvn clean package && docker compose up --build -d
+docker compose down
+docker image rm hw17-docker-app
 
 Обернуть приложение в docker-контейнер
 

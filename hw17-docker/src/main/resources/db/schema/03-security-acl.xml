@@ -39,7 +39,7 @@
             <column name="object_id_class" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_object_class" references="acl_class(id)"/>
             </column>
-            <column name="object_id_identity" type="bigint">
+            <column name="object_id_identity" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
             <column name="parent_object" type="bigint">
