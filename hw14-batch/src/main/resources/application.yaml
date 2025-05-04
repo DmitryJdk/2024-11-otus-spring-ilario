@@ -1,0 +1,14 @@
+spring:
+  shell:
+    interactive:
+      enabled: true
+    script:
+      enabled: true
+  batch:
+    job:
+      enabled: false
+  liquibase:
+    change-log: classpath:/db/changelog.xml
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: \

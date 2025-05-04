@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="dmitryjdk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="authors"/>
+            </not>
+        </preConditions>
+        <createTable tableName="authors">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="full_name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="dmitryjdk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="genres"/>
+            </not>
+        </preConditions>
+        <createTable tableName="genres">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="dmitryjdk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="books"/>
+            </not>
+        </preConditions>
+        <createTable tableName="books">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(255)"/>
+            <column name="author_id" type="bigserial">
+                <constraints foreignKeyName="fk_book_author_id" references="authors(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="dmitryjdk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="books_genres"/>
+            </not>
+        </preConditions>
+        <createTable tableName="books_genres">
+            <column name="book_id" type="bigserial">
+                <constraints foreignKeyName="fk_genre_book_id" references="books(id)"/>
+            </column>
+            <column name="genre_id" type="bigserial">
+                <constraints foreignKeyName="fk_book_genre_id" references="genres(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
