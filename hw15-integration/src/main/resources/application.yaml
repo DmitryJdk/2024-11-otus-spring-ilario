@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: hw15-integration
+logging:
+  level:
+    org.springframework: ERROR
