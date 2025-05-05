@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="dmitryjdk">
+        <createTable tableName="acl_sid">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="principal" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sid" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="acl_sid" columnNames="sid,principal" constraintName="unique_uk_1"/>
+    </changeSet>
+
+    <changeSet id="2" author="dmitryjdk">
+        <createTable tableName="acl_class">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="class" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="acl_class" columnNames="class" constraintName="unique_uk_2"/>
+    </changeSet>
+
+    <changeSet id="3" author="dmitryjdk">
+        <createTable tableName="acl_object_identity">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="object_id_class" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_object_class" references="acl_class(id)"/>
+            </column>
+            <column name="object_id_identity" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_object" type="bigint">
+                <constraints foreignKeyName="fk_id_parent" references="acl_object_identity(id)"/>
+            </column>
+            <column name="owner_sid" type="bigint">
+                <constraints foreignKeyName="fk_owner_sid" references="acl_sid(id)"/>
+            </column>
+            <column name="entries_inheriting" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="acl_object_identity" columnNames="object_id_class,object_id_identity" constraintName="unique_uk_3"/>
+    </changeSet>
+
+    <changeSet id="4" author="dmitryjdk">
+        <createTable tableName="acl_entry">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="acl_object_identity" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_obj_identity" references="acl_object_identity(id)"/>
+            </column>
+            <column name="ace_order" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sid" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_acl_sid" references="acl_sid(id)"/>
+            </column>
+            <column name="mask" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="granting" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="audit_success" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="audit_failure" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="acl_entry" columnNames="acl_object_identity,ace_order" constraintName="unique_uk_4"/>
+    </changeSet>
+
+</databaseChangeLog>
+

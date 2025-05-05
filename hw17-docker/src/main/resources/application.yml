@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: hw17-docker
+  datasource:
+    url: jdbc:h2:mem:maindb
+    driver-class-name: org.h2.Driver
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  liquibase:
+    change-log: classpath:/db/changelog.xml
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+server:
+  port: 8080
+---
+spring:
+  jmx:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, loggers
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: 8090
