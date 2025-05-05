@@ -3,7 +3,7 @@
 #### user/user
 #### user1/user
 
-mvn clean package && docker compose up --build -d
+docker compose up --build -d
 docker compose down
 docker image rm hw17-docker-app
 
