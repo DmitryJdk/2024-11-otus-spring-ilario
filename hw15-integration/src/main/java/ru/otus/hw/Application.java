@@ -6,6 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.otus.hw.gateway.TransformationGateway;
+import ru.otus.hw.model.Butterfly;
+import ru.otus.hw.model.Caterpillar;
+import ru.otus.hw.util.RandomDataUtils;
 
 @Slf4j
 @SpringBootApplication
@@ -20,15 +23,12 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String caterpillar = "гусеница";
-        log.info("Начальная стадия: {}", caterpillar);
-        String result = gateway.transform(caterpillar);
-        log.info("Конечная стадия: {}", result);
-
-        String wrongInput = "не_гусеница";
-        log.info("Начальная стадия: {}", wrongInput);
-        String notChangedResult = gateway.transform(wrongInput);
-        log.info("Конечная стадия: {}", notChangedResult);
+        for (int i = 0; i < 5; i++) {
+            Caterpillar caterpillar = new Caterpillar(RandomDataUtils.getRandomSize());
+            log.info("Начальная стадия, размер гусеницы: {}", caterpillar.getSize());
+            Butterfly butterfly = gateway.transform(caterpillar);
+            log.info("Конечная стадия, цвет бабочки: {}", butterfly.getColor());
+        }
     }
 
 }
