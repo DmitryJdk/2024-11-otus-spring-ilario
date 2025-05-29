@@ -1,0 +1,19 @@
+server:
+  port: 8083
+
+jwt:
+  secret: <>
+
+spring:
+  application:
+    name: moex-auth
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: \
+  liquibase:
+    change-log: classpath:/db/changelog.xml
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: \
+    driver-class-name: org.postgresql.Driver

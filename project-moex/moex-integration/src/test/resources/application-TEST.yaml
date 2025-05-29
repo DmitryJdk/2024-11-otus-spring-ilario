@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: moex-integration
+  cloud:
+    openfeign:
+      client:
+        config:
+          imoex:
+            url: http://localhost:8089/
