@@ -31,10 +31,10 @@ import static org.mockito.Mockito.times;
         @ConfigureWireMock(name = "moex", port = 8089)
 })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class MoexAdapterTest {
+public class MoexAdapterServiceTest {
 
     @Autowired
-    public FeignMoexAdapter adapter;
+    public MoexAdapterService adapter;
 
     @MockitoSpyBean
     @Qualifier("moexCache")

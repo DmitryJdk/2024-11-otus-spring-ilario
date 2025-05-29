@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Duration;
 
 @Configuration
-public class FeignMoexCacheConfiguration {
+public class MoexCacheConfiguration {
 
     @Bean("moexCache")
     public Cache<String, String> moexCache() {

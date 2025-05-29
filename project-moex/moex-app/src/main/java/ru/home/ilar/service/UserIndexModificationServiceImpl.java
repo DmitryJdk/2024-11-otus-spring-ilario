@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.home.ilar.dto.UserSettingsItemDto;
+import ru.home.ilar.dto.UserIndexModificationItemDto;
 import ru.home.ilar.database.entity.UserSettings;
 import ru.home.ilar.mapper.UserSettingsMapper;
 import ru.home.ilar.database.model.SettingsItem;
@@ -15,14 +15,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserSettingsService {
+public class UserIndexModificationServiceImpl implements UserIndexModificationService {
 
     private final UserSettingsRepository userSettingsRepository;
 
     private final UserSettingsMapper userSettingsMapper;
 
+    @Override
     @Transactional(readOnly = true)
-    public Flux<UserSettingsItemDto> getUserSettings(Long userId) {
+    public Flux<UserIndexModificationItemDto> getUserIndexModifications(Long userId) {
         return userSettingsRepository.findByUserId(userId)
                 .switchIfEmpty(Mono.just(new UserSettings()))
                 .map(UserSettings::getSettings)
@@ -30,8 +31,10 @@ public class UserSettingsService {
                 .map(userSettingsMapper::mapToDto);
     }
 
+    @Override
     @Transactional
-    public Mono<UserSettings> saveUserSettings(Long userId, List<UserSettingsItemDto> userSettingsItems) {
+    public Mono<UserSettings> saveUserIndexModifications(Long userId,
+                                                         List<UserIndexModificationItemDto> userSettingsItems) {
         List<SettingsItem> settings = userSettingsItems.stream()
                 .map(userSettingsMapper::mapToEntity)
                 .toList();

@@ -7,27 +7,28 @@ import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.home.ilar.moex.service.FeignMoexApiService;
+import ru.home.ilar.moex.service.MoexApiService;
 
 @Slf4j
 @Component
-public class FeignMoexAdapter {
+public class MoexAdapterServiceImpl implements MoexAdapterService {
 
-    private final FeignMoexApiService feignMoexApiService;
+    private final MoexApiService moexApiService;
 
     private final Cache<String, String> moexCache;
 
-    public FeignMoexAdapter(FeignMoexApiService feignMoexApiService,
-                            @Qualifier("moexCache") Cache<String, String> moexCache) {
-        this.feignMoexApiService = feignMoexApiService;
+    public MoexAdapterServiceImpl(MoexApiService moexApiService,
+                                  @Qualifier("moexCache") Cache<String, String> moexCache) {
+        this.moexApiService = moexApiService;
         this.moexCache = moexCache;
     }
 
+    @Override
     @Retry(name = "moexRetry", fallbackMethod = "currentIndexFallback")
     @RateLimiter(name = "moexRL", fallbackMethod = "currentIndexFallback")
     @CircuitBreaker(name = "moexCB", fallbackMethod = "currentIndexFallback")
     public String getCurrentIndexState() {
-        String response = feignMoexApiService.getCurrentIndexState();
+        String response = moexApiService.getCurrentIndexState();
         moexCache.put("currentIndex", response);
         return response;
     }
