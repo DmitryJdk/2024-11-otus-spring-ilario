@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="dmitryjdk">
+        <preConditions>
+            <sqlCheck expectedResult="0">
+                select count(*) from moex.user_settings where user_id = 1
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="user_settings" schemaName="moex">
+            <column name="user_id">1</column>
+            <column name="settings">[{"ticket": "MTLR", "weight": 0.0}, {"ticket": "SELG", "weight": 0.0}, {"ticket": "HYDR", "weight": 0.0}, {"ticket": "ASTR", "weight": 0.0}, {"ticket": "UPRO", "weight": 0.0}, {"ticket": "UGLD", "weight": 0.0}, {"ticket": "FEES", "weight": 0.0}, {"ticket": "MSNG", "weight": 0.0}, {"ticket": "RENI", "weight": 0.0}, {"ticket": "MDMG", "weight": 0.0}, {"ticket": "ENPG", "weight": 0.0}, {"ticket": "FLOT", "weight": 0.0}, {"ticket": "VKCO", "weight": 0.0}, {"ticket": "AFKS", "weight": 0.0}, {"ticket": "ALRS", "weight": 0.0}]</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

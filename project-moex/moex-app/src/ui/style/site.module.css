@@ -1,0 +1,111 @@
+/* Подключение шрифта Open Sans */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0 0 150px 0; /* отступ снизу под футер */
+    background: #fafafa;
+    color: #333;
+    text-align: center;
+    line-height: 1.6;
+}
+
+header {
+    background: linear-gradient(90deg, #0d47a1, #1976d2);
+    color: #fff;
+    padding: 20px 0;
+    font-weight: 600;
+    font-size: 1.8rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    letter-spacing: 1px;
+}
+
+footer {
+    background: linear-gradient(90deg, #0d47a1, #1976d2);
+    color: #e0e0e0;
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+}
+
+table {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto 30px;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+th, td {
+    padding: 18px 20px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 500;
+    color: #555;
+}
+
+th {
+    background-color: #1976d2;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+tr:hover {
+    background-color: #e3f2fd;
+    cursor: default;
+    transition: background-color 0.3s ease;
+}
+
+a {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 28px;
+    background-color: #1976d2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    box-shadow: 0 3px 7px rgba(25, 118, 210, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+a:hover {
+    background-color: #0d47a1;
+    box-shadow: 0 5px 15px rgba(13, 71, 161, 0.7);
+}
+
+.form-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* на мобильных будет переход на новую строку */
+    gap: 12px;
+    margin-top: 30px;
+}
+
+input[type="email"] {
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1rem;
+    min-width: 250px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="email"]:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+}

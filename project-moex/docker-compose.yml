@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: "postgres:17"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+
+  moex-integration:
+    build:
+      context: ./moex-integration
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+      - "8091:8091"
+
+  moex-information:
+    build:
+      context: ./moex-information
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+      - "8092:8092"
+
+  moex-auth:
+    depends_on:
+      - postgres
+    build:
+      context: ./moex-auth
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+      - "8093:8093"
+    environment:
+      - JWT_SECRET=thisIsMysecregtfrdesww233eggtffeeddgkjjhhtdhttebd54ndhdhfhhhshs8877465sbbdd
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/db
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=postgres
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgres:5432/db
+      - SPRING_LIQUIBASE_USERNAME=postgres
+      - SPRING_LIQUIBASE_PASSWORD=postgres
+
+  moex-app:
+    depends_on:
+      - moex-auth
+    build:
+      context: ./moex-app
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    environment:
+      - JWT_SECRET=thisIsMysecregtfrdesww233eggtffeeddgkjjhhtdhttebd54ndhdhfhhhshs8877465sbbdd
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/db
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=postgres
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgres:5432/db
+      - SPRING_LIQUIBASE_USERNAME=postgres
+      - SPRING_LIQUIBASE_PASSWORD=postgres
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_MOEX_INTEGRATION_URL=http://moex-integration:8081/
+      - MOEX_INFORMATION_URL=http://moex-information:8082/
