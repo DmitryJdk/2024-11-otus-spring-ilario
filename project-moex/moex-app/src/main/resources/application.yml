@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: moex-app
+  cloud:
+    openfeign:
+      client:
+        config:
+          moex-integration:
+            url: http://localhost:8081/
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: \
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  liquibase:
+    change-log: classpath:/db/changelog.xml
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: \
+    driver-class-name: org.postgresql.Driver
+moex:
+  information:
+    url: http://localhost:8082/
+jwt:
+  secret: <>

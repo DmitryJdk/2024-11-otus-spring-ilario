@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="dmitryjdk">
+        <preConditions onFail="MARK_RAN">
+
+            <sqlCheck expectedResult="0">
+                select count(id) from moex.users where id in (1, 2, 3)
+            </sqlCheck>
+
+        </preConditions>
+        <insert tableName="users" schemaName="moex">
+            <column name="id">1</column>
+            <column name="username">user</column>
+            <column name="password">$2a$10$QUjJsc3wQI5tvtPgXrRtAerFGHngp9RVSo9d7DtZLvyLNqwtlimTC</column>
+        </insert>
+        <insert tableName="users" schemaName="moex">
+            <column name="id">2</column>
+            <column name="username">user1</column>
+            <column name="password">$2a$10$QUjJsc3wQI5tvtPgXrRtAerFGHngp9RVSo9d7DtZLvyLNqwtlimTC</column>
+        </insert>
+        <insert tableName="users" schemaName="moex">
+            <column name="id">3</column>
+            <column name="username">user2</column>
+            <column name="password">$2a$10$QUjJsc3wQI5tvtPgXrRtAerFGHngp9RVSo9d7DtZLvyLNqwtlimTC</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
