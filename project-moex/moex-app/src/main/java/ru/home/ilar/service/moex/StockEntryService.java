@@ -7,7 +7,7 @@ import ru.home.ilar.dto.StockEntryDto;
 import java.util.List;
 
 @FeignClient(value = "moex-integration")
-public interface MoexIntegrationService {
+public interface StockEntryService {
 
     @GetMapping("/api/currentStockIndex")
     List<StockEntryDto> getCurrentStockIndex();

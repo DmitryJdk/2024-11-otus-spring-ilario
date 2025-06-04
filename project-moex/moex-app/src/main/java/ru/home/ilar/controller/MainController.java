@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class MainPageController {
+public class MainController {
 
     private final StockIntegrationService stockIntegrationService;
 

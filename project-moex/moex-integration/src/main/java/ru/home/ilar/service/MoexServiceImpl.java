@@ -22,7 +22,7 @@ public class MoexServiceImpl implements MoexService {
 
     private final MoexAdapterService moexAdapterService;
 
-    private final DatabaseStockService databaseStockService;
+    private final StockService stockService;
 
     private final StockMapper stockMapper;
 
@@ -38,11 +38,11 @@ public class MoexServiceImpl implements MoexService {
         try {
             String moexResponse = moexAdapterService.getCurrentIndexState();
             List<StockEntity> stockEntities = paresMoexAnswer(moexResponse);
-            databaseStockService.saveStock(stockEntities);
+            stockService.saveStock(stockEntities);
             return stockEntities;
         } catch (Exception e) {
             log.error("Error getting stock entities", e);
-            return databaseStockService.findAll();
+            return stockService.findAll();
         }
     }
 

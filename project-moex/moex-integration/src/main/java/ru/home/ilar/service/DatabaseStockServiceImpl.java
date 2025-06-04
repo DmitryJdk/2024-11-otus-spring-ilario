@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DatabaseStockServiceImpl implements DatabaseStockService {
+public class DatabaseStockServiceImpl implements StockService {
 
     private final StockRepository stockRepository;
 

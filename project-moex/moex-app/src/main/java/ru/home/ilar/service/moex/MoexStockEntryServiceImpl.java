@@ -11,14 +11,14 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class StockIntegrationServiceImpl implements StockIntegrationService {
+public class MoexStockEntryServiceImpl implements StockIntegrationService {
 
-    private final MoexIntegrationService moexIntegrationService;
+    private final StockEntryService stockEntryService;
 
     @Override
     public Mono<List<StockEntryDto>> getCurrentStockIndex() {
         CompletableFuture<List<StockEntryDto>> future = CompletableFuture
-                .supplyAsync(moexIntegrationService::getCurrentStockIndex);
+                .supplyAsync(stockEntryService::getCurrentStockIndex);
         return Mono.fromFuture(future);
     }
 }
